@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untuk Kamu ❤️</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+ min-height:100vh;background:radial-gradient(circle at top,#54152e,#190711 70%);
+ color:#fff0f3;font-family:Georgia,serif;text-align:center;
+ overflow-x:hidden;padding:30px 16px
+}
+main{max-width:560px;margin:auto;position:relative;z-index:1}
+h1{font-size:clamp(32px,8vw,48px);margin:15px 0;color:#ffb2c5}
+.sub{font:14px Arial;color:#e9bac8;line-height:1.8}
+.rose{width:230px;height:270px;margin:20px auto;animation:sway 4s ease-in-out infinite}
+.rose svg{width:100%;height:100%;overflow:visible}
+.bloom{transform-origin:150px 125px;animation:bloom 2s ease-out both}
+.petals{transform-origin:150px 125px;animation:open 2s ease-out both}
+.line{height:1px;width:90px;background:#c76a86;margin:20px auto}
+button{
+ padding:13px 20px;border-radius:30px;border:1px solid #f38ca8;
+ background:#a82049;color:white;cursor:pointer;margin:8px;font-size:14px
+}
+button:hover{background:#d43a66}
+.letter{
+ text-align:left;background:#fff4f0;color:#57313b;border-radius:16px;
+ padding:0 22px;max-height:0;overflow:hidden;opacity:0;
+ transition:max-height 1s ease,opacity .7s,padding .5s;margin-top:15px
+}
+.letter.show{max-height:1600px;opacity:1;padding:25px 22px}
+.letter h2{text-align:center;color:#ae2850;font-weight:normal;margin-bottom:8px}
+.letter .to{text-align:center;color:#a76c7d;font-size:13px;margin-bottom:22px}
+.letter p{font-size:15px;line-height:1.9;margin-bottom:16px}
+.sign{text-align:right;color:#ae2850;font-style:italic}
+#status{font:12px Arial;color:#e9bac8;margin:8px}
+footer{font:11px Arial;letter-spacing:2px;color:#d7a1b2;margin:30px 0}
+.floating{position:fixed;bottom:-30px;pointer-events:none;animation:rise 6s linear forwards;z-index:5}
+@keyframes bloom{from{transform:scale(.2);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes open{from{transform:scale(.1)}to{transform:scale(1)}}
+@keyframes sway{0%,100%{rotate:-3deg}50%{rotate:3deg}}
+@keyframes rise{0%{transform:translateY(0);opacity:0}15%{opacity:.8}100%{transform:translateY(-110vh) rotate(40deg);opacity:0}}
+@media(max-width:400px){.rose{width:200px;height:240px}.letter p{font-size:14px}}
+</style>
+</head>
+<body>
+<main>
+ <p class="sub">A LITTLE LETTER FROM MY HEART</p>
+ <h1>Untuk Kamu ❤️</h1>
+ <p class="sub">Ada sesuatu yang ingin aku sampaikan...</p>
+
+ <div class="rose">
+  <svg viewBox="0 0 300 330" role="img" aria-label="Mawar merah">
+   <defs>
+    <linearGradient id="stem" x2="1">
+     <stop stop-color="#18542e"/><stop offset=".5" stop-color="#64b878"/><stop offset="1" stop-color="#18542e"/>
+    </linearGradient>
+    <linearGradient id="red" x2="1" y2="1">
+     <stop stop-color="#ff9bae"/><stop offset=".5" stop-color="#ed2855"/><stop offset="1" stop-color="#760d2c"/>
+    </linearGradient>
+   </defs>
+   <path d="M150 125 Q154 210 150 300" stroke="url(#stem)" stroke-width="9" fill="none" stroke-linecap="round"/>
+   <path d="M151 220 Q105 175 76 204 Q103 238 151 220" fill="#49a864"/>
+   <path d="M151 255 Q195 211 223 230 Q205 263 151 255" fill="#328b4e"/>
+   <g class="bloom">
+    <g fill="url(#red)" stroke="#ff8ba5" stroke-opacity=".35">
+     <path class="petals" d="M150 128 C92 119 85 74 112 51 C130 34 145 59 150 78 C165 41 193 42 205 68 C224 103 184 127 150 128Z"/>
+     <path class="petals" d="M150 128 C105 151 74 119 88 91 C99 68 119 83 135 100 C121 66 145 48 163 65 C187 89 172 115 150 128Z"/>
+     <path class="petals" d="M150 128 C185 89 218 102 222 126 C226 154 193 161 173 145 C195 177 174 193 157 181 C135 164 134 144 150 128Z"/>
+    </g>
+    <g fill="#fa5275">
+     <path d="M150 126 C117 107 121 76 140 69 C158 63 166 85 157 101 C179 80 199 99 187 117 C177 134 160 138 150 126Z"/>
+     <path d="M150 126 C124 130 109 109 125 94 C140 80 152 99 150 112 C165 91 183 106 175 123 C168 138 154 137 150 126Z" fill="#ae153b"/>
+     <path d="M150 123 C137 108 150 96 159 107 C168 119 153 134 150 123Z" fill="#ffb1bf"/>
+     <path d="M150 121 C145 114 153 108 157 116 C159 122 152 128 150 121Z" fill="#8c1032"/>
+    </g>
+   </g>
+  </svg>
+ </div>
+
+ <div class="line"></div>
+ <p class="sub">Aku nggak minta kita sempurna.<br>Aku cuma ingin kita terus belajar bersama. 🤍</p>
+
+ <div>
+  <button id="letterBtn" onclick="toggleLetter()">Buka surat 💌</button>
+  <button id="musicBtn" onclick="toggleMusic()">♫ Putar musik</button>
+ </div>
+ <p id="status">Musik akan mulai setelah kamu menekan tombol.</p>
+
+ <article class="letter" id="letter">
+  <h2>Untuk kamu, sayang.</h2>
+  <p class="to">Ada beberapa hal yang ingin aku sampaikan.</p>
+
+  <p>Aku tahu kamu masih kepikiran sama apa yang sudah terjadi, dan mungkin kamu masih merasa bersalah sama aku. Tapi aku nggak mau kamu terus-terusan menyalahkan diri sendiri, ya.</p>
+
+  <p>Aku juga mau minta maaf kalau selama ini ada sikap atau perkataanku yang pernah nyakitin kamu, kalau ada hal yang aku lakukan tanpa sadar bikin kamu sedih, atau kalau terkadang aku belum bisa memahami kamu dengan baik. Aku tahu aku juga masih banyak kurangnya, dan mungkin ada hal-hal yang seharusnya bisa aku lakukan dengan lebih baik.</p>
+
+  <p>Aku nggak mau kita terus terjebak sama rasa bersalah dan saling menyalahkan diri sendiri. Aku pengin kita bisa belajar dari apa yang sudah terjadi, saling memahami, dan pelan-pelan memperbaiki apa yang masih bisa kita perbaiki.</p>
+
+  <p>Aku sayang sama kamu. Aku nggak pernah berharap kamu jadi orang yang sempurna, karena aku juga bukan orang yang sempurna. Aku cuma ingin kita sama-sama belajar, sama-sama bertumbuh, dan bisa merasa nyaman untuk jadi diri sendiri saat bersama.</p>
+
+  <p>Kalau ada sesuatu yang masih kamu pikirkan, kamu boleh cerita sama aku. Kamu nggak harus selalu terlihat baik-baik aja di depanku. Aku mau mendengarkan kamu, bukan untuk menghakimi kamu, tapi karena aku peduli sama kamu.</p>
+
+  <p>Jadi, jangan terlalu keras sama diri sendiri, ya. Aku juga sedang belajar memperbaiki diriku. Kita nggak harus selalu benar dalam segala hal, tapi aku harap kita bisa sama-sama berusaha menjadi lebih baik.</p>
+
+  <p>Aku nggak tahu apakah aku selalu bisa melakukan semuanya dengan benar, tapi aku ingin kamu tahu kalau perasaanku ke kamu itu tulus.</p>
+
+  <p>Aku minta maaf atas hal-hal yang pernah menyakitimu, dan terima kasih karena masih menjadi bagian dari hidupku. Aku sayang kamu, dan aku berharap kita bisa melewati semuanya dengan lebih baik, bersama-sama.</p>
+
+  <p class="sign">Dengan sayang,<br>seseorang yang ingin terus belajar bersamamu ❤️</p>
+ </article>
+
+ <footer>MADE WITH LOVE, JUST FOR YOU ♡</footer>
+</main>
+
+<script>
+function toggleLetter(){
+ const letter=document.getElementById("letter");
+ const btn=document.getElementById("letterBtn");
+ letter.classList.toggle("show");
+ const opened=letter.classList.contains("show");
+ btn.textContent=opened?"Tutup surat 💌":"Buka surat 💌";
+ if(opened){
+  hearts();
+  setTimeout(()=>letter.scrollIntoView({behavior:"smooth",block:"nearest"}),150);
+ }
+}
+
+function hearts(){
+ for(let i=0;i<18;i++){
+  const el=document.createElement("span");
+  el.className="floating";
+  el.textContent=["❤️","🌹","💕","♡"][Math.floor(Math.random()*4)];
+  el.style.left=Math.random()*100+"vw";
+  el.style.fontSize=(15+Math.random()*15)+"px";
+  el.style.animationDuration=(4+Math.random()*4)+"s";
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),8500);
+ }
+}
+
+// Musik romantis instrumental sederhana tanpa file eksternal
+let ctx=null,playing=false,timer=null,index=0,nextTime=0;
+const notes=[261.63,329.63,392,329.63,293.66,349.23,392,329.63,
+261.63,329.63,392,440,392,329.63,293.66,261.63];
+
+function note(freq,time,duration){
+ const osc=ctx.createOscillator();
+ const gain=ctx.createGain();
+ osc.type="sine";
+ osc.frequency.value=freq;
+ gain.gain.setValueAtTime(.0001,time);
+ gain.gain.linearRampToValueAtTime(.035,time+.08);
+ gain.gain.exponentialRampToValueAtTime(.0001,time+duration);
+ osc.connect(gain);
+ gain.connect(ctx.destination);
+ osc.start(time);
+ osc.stop(time+duration+.05);
+}
+
+function schedule(){
+ if(!playing)return;
+ while(nextTime<ctx.currentTime+.5){
+  note(notes[index%notes.length],nextTime,.8);
+  if(index%4===0)note(notes[index%notes.length]/2,nextTime,1.2);
+  nextTime+=.5;
+  index++;
+ }
+}
+
+async function toggleMusic(){
+ const btn=document.getElementById("musicBtn");
+ const status=document.getElementById("status");
+ try{
+  if(!ctx){
+   const Audio=window.AudioContext||window.webkitAudioContext;
+   if(!Audio){status.textContent="Browser tidak mendukung musik.";return}
+   ctx=new Audio();
+  }
+  if(playing){
+   playing=false;
+   clearInterval(timer);
+   await ctx.suspend();
+   btn.textContent="♫ Putar musik";
+   status.textContent="Musik dijeda ♡";
+  }else{
+   await ctx.resume();
+   playing=true;
+   nextTime=ctx.currentTime+.1;
+   schedule();
+   timer=setInterval(schedule,150);
+   btn.textContent="Ⅱ Jeda musik";
+   status.textContent="Melodi untuk kamu sedang diputar ♫";
+  }
+ }catch(e){
+  status.textContent="Musik tidak dapat diputar di browser ini.";
+ }
+}
+</script>
+</body>
+</html>
