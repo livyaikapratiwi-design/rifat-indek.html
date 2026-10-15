@@ -1,8 +1,11 @@
-<!DOCTYPE html>
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#190711">
 <title>Untuk Kamu ❤️</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -12,8 +15,8 @@ body{
  overflow-x:hidden;padding:30px 16px
 }
 main{max-width:560px;margin:auto;position:relative;z-index:1}
-h1{font-size:clamp(32px,8vw,48px);margin:15px 0;color:#ffb2c5}
-.sub{font:14px Arial;color:#e9bac8;line-height:1.8}
+h1{font-size:clamp(32px,8vw,48px);margin:15px 0;color:#ffb2c5;text-shadow:0 0 25px #ff6b922b}
+.sub{font:14px Arial,sans-serif;color:#e9bac8;line-height:1.8}
 .rose{width:230px;height:270px;margin:20px auto;animation:sway 4s ease-in-out infinite}
 .rose svg{width:100%;height:100%;overflow:visible}
 .bloom{transform-origin:150px 125px;animation:bloom 2s ease-out both}
@@ -21,27 +24,46 @@ h1{font-size:clamp(32px,8vw,48px);margin:15px 0;color:#ffb2c5}
 .line{height:1px;width:90px;background:#c76a86;margin:20px auto}
 button{
  padding:13px 20px;border-radius:30px;border:1px solid #f38ca8;
- background:#a82049;color:white;cursor:pointer;margin:8px;font-size:14px
+ background:#a82049;color:white;cursor:pointer;margin:8px;font-size:14px;
+ transition:transform .2s,background .2s
 }
-button:hover{background:#d43a66}
+button:hover{background:#d43a66;transform:translateY(-2px)}
 .letter{
  text-align:left;background:#fff4f0;color:#57313b;border-radius:16px;
  padding:0 22px;max-height:0;overflow:hidden;opacity:0;
- transition:max-height 1s ease,opacity .7s,padding .5s;margin-top:15px
+ transition:max-height 1.2s ease,opacity .7s,padding .5s;margin-top:15px
 }
-.letter.show{max-height:1600px;opacity:1;padding:25px 22px}
+.letter.show{max-height:6000px;opacity:1;padding:25px 22px}
 .letter h2{text-align:center;color:#ae2850;font-weight:normal;margin-bottom:8px}
 .letter .to{text-align:center;color:#a76c7d;font-size:13px;margin-bottom:22px}
 .letter p{font-size:15px;line-height:1.9;margin-bottom:16px}
 .sign{text-align:right;color:#ae2850;font-style:italic}
-#status{font:12px Arial;color:#e9bac8;margin:8px}
-footer{font:11px Arial;letter-spacing:2px;color:#d7a1b2;margin:30px 0}
+#status{font:12px Arial,sans-serif;color:#e9bac8;margin:8px;line-height:1.6}
+.music-player{
+ display:flex;align-items:center;gap:14px;max-width:340px;margin:15px auto;
+ padding:13px;border:1px solid #7c344d;border-radius:16px;
+ background:linear-gradient(135deg,#35101f,#1d0a13);text-align:left;
+ box-shadow:0 8px 25px #0002
+}
+.music-cover{
+ width:55px;height:55px;display:grid;place-items:center;flex-shrink:0;
+ border-radius:10px;background:linear-gradient(145deg,#b82d55,#4b112b);
+ font-size:28px;box-shadow:0 0 20px #b82d5530
+}
+.music-info{display:flex;flex-direction:column;gap:6px;min-width:0;flex:1}
+.music-info strong{color:#ffe1e9;font:600 14px Arial,sans-serif}
+.music-info span{color:#d7a1b2;font:11px Arial,sans-serif}
+.player-note{font:10px Arial,sans-serif;color:#c997a8;margin:0 auto 8px;max-width:320px;line-height:1.5}
+footer{font:11px Arial,sans-serif;letter-spacing:2px;color:#d7a1b2;margin:30px 0}
 .floating{position:fixed;bottom:-30px;pointer-events:none;animation:rise 6s linear forwards;z-index:5}
+.sparkle{position:fixed;pointer-events:none;z-index:0;color:#ffb2c5;opacity:.4;animation:twinkle 3s ease-in-out infinite}
 @keyframes bloom{from{transform:scale(.2);opacity:0}to{transform:scale(1);opacity:1}}
 @keyframes open{from{transform:scale(.1)}to{transform:scale(1)}}
 @keyframes sway{0%,100%{rotate:-3deg}50%{rotate:3deg}}
 @keyframes rise{0%{transform:translateY(0);opacity:0}15%{opacity:.8}100%{transform:translateY(-110vh) rotate(40deg);opacity:0}}
-@media(max-width:400px){.rose{width:200px;height:240px}.letter p{font-size:14px}}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:.65;transform:scale(1.2)}}
+@media(max-width:400px){.rose{width:200px;height:240px}.letter p{font-size:14px}button{padding:12px 16px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -86,29 +108,54 @@ footer{font:11px Arial;letter-spacing:2px;color:#d7a1b2;margin:30px 0}
   <button id="letterBtn" onclick="toggleLetter()">Buka surat 💌</button>
   <button id="musicBtn" onclick="toggleMusic()">♫ Putar musik</button>
  </div>
- <p id="status">Musik akan mulai setelah kamu menekan tombol.</p>
+
+ <div class="music-player">
+  <div class="music-cover">🌹</div>
+  <div class="music-info">
+   <strong>Hanya Untuk Mu</strong>
+   <span>A song dedicated to you ♡</span>
+  </div>
+  <span aria-hidden="true" style="color:#ffb2c5;font-size:19px">♫</span>
+  <audio id="loveSong" preload="metadata" loop>
+   <source src="hanya-untuk-mu.mp3" type="audio/mpeg">
+  </audio>
+ </div>
+ <p class="player-note">Letakkan MP3 lagu di folder yang sama dengan file HTML.</p>
+ <p id="status" aria-live="polite">Tekan “Putar musik” untuk mendengarkan lagu ♡</p>
 
  <article class="letter" id="letter">
-  <h2>Untuk kamu, sayang.</h2>
-  <p class="to">Ada beberapa hal yang ingin aku sampaikan.</p>
+  <h2>Untuk kamu, sayang. ❤️</h2>
+  <p class="to">Dari hati yang benar-benar menyayangimu.</p>
 
-  <p>Aku tahu kamu masih kepikiran sama apa yang sudah terjadi, dan mungkin kamu masih merasa bersalah sama aku. Tapi aku nggak mau kamu terus-terusan menyalahkan diri sendiri, ya.</p>
+  <p>Sayanggg, aku cuma mau kamu tahu kalau aku sayang banget sama kamu. Mungkin aku nggak selalu bisa menjelaskan perasaanku dengan kata-kata yang sempurna, tapi aku harap kamu bisa merasakan betapa berharganya kamu buat aku. Kehadiran kamu membawa banyak hal baru dalam hidupku, hal-hal yang sebelumnya belum pernah aku rasakan, dan jujur aku senang karena bisa mengenal kamu sejauh ini.</p>
 
-  <p>Aku juga mau minta maaf kalau selama ini ada sikap atau perkataanku yang pernah nyakitin kamu, kalau ada hal yang aku lakukan tanpa sadar bikin kamu sedih, atau kalau terkadang aku belum bisa memahami kamu dengan baik. Aku tahu aku juga masih banyak kurangnya, dan mungkin ada hal-hal yang seharusnya bisa aku lakukan dengan lebih baik.</p>
+  <p>Aku berharap kalau suatu saat nanti kita punya masalah, kita bisa selalu memilih untuk membicarakannya baik-baik, yaa sayang. Aku mau kita belajar untuk saling mendengarkan, saling memahami, dan nggak langsung mengambil kesimpulan saat sedang emosi. Kalau ada yang mengganggu pikiran kamu, bilang sama aku. Kalau ada sikapku yang bikin kamu nggak nyaman, kasih tahu aku juga. Aku nggak mau kita harus berpura-pura baik-baik aja hanya karena takut membuat satu sama lain kecewa. Aku ingin kita tetap menjadi diri sendiri, tanpa takut untuk jujur tentang apa yang kita rasakan.</p>
 
-  <p>Aku nggak mau kita terus terjebak sama rasa bersalah dan saling menyalahkan diri sendiri. Aku pengin kita bisa belajar dari apa yang sudah terjadi, saling memahami, dan pelan-pelan memperbaiki apa yang masih bisa kita perbaiki.</p>
+  <p>Untuk semua hal yang sudah berlalu, mari kita jadikan pelajaran bersama, yaa. Kita nggak bisa mengubah apa yang sudah terjadi, tapi kita masih punya kesempatan untuk memperbaiki apa yang akan kita lakukan setelah ini. Aku harap kesalahan yang sama nggak perlu kita ulang lagi. Bukan karena kita harus menjadi pasangan yang sempurna, tetapi karena aku ingin kita tumbuh menjadi dua orang yang semakin mengerti cara menyayangi satu sama lain dengan lebih baik.</p>
 
-  <p>Aku sayang sama kamu. Aku nggak pernah berharap kamu jadi orang yang sempurna, karena aku juga bukan orang yang sempurna. Aku cuma ingin kita sama-sama belajar, sama-sama bertumbuh, dan bisa merasa nyaman untuk jadi diri sendiri saat bersama.</p>
+  <p>Aku sayang banget sama kamu, lebih dari yang mungkin bisa aku jelaskan. Aku nggak mau kamu terus merasa sendirian ketika menghadapi sesuatu. Selama kita masih mau berusaha bersama, aku ingin kita saling menguatkan, saling mengingatkan, dan saling memberi ruang untuk belajar. Aku nggak janji kalau hubungan kita akan selalu mudah, tapi aku ingin berusaha menjaga hubungan ini dengan sungguh-sungguh. And I promise, aku akan berusaha untuk nggak menyerah begitu saja ketika kita sedang menghadapi masalah. Aku ingin kita membicarakan semuanya sebelum membiarkan kesalahpahaman menjauhkan kita.</p>
 
-  <p>Kalau ada sesuatu yang masih kamu pikirkan, kamu boleh cerita sama aku. Kamu nggak harus selalu terlihat baik-baik aja di depanku. Aku mau mendengarkan kamu, bukan untuk menghakimi kamu, tapi karena aku peduli sama kamu.</p>
+  <p>Kalau suatu saat nanti hal yang nggak kita inginkan benar-benar terjadi, aku harap kita nggak langsung melupakan semua hal baik yang pernah kita lewati. Aku harap kita bisa mengingat kembali masa-masa awal saat kita baru kenal, saat semuanya terasa baru, saat kita mulai saling mengenal, dan saat kehadiran satu sama lain mulai terasa istimewa. Ingat, yaa sayang, kita pernah punya banyak alasan untuk tersenyum karena satu sama lain. Aku ingin kenangan indah itu selalu mengingatkan kita bahwa hubungan ini juga punya banyak hal yang layak untuk diperjuangkan.</p>
 
-  <p>Jadi, jangan terlalu keras sama diri sendiri, ya. Aku juga sedang belajar memperbaiki diriku. Kita nggak harus selalu benar dalam segala hal, tapi aku harap kita bisa sama-sama berusaha menjadi lebih baik.</p>
+  <p>Mungkin kamu bukan orang pertama yang pernah datang ke hatiku, tetapi kamu adalah pengalaman pertama untuk banyak hal yang belum pernah aku rasakan sebelumnya. Bersama kamu, aku belajar bagaimana rasanya menyayangi seseorang sedalam ini, memikirkan seseorang sesering ini, merasa bahagia karena hal-hal sederhana, dan menyadari bahwa kehadiran seseorang bisa menjadi begitu berarti. Ada banyak perasaan baru yang aku kenal sejak ada kamu, dan itu membuat kamu punya tempat yang istimewa dalam ceritaku.</p>
 
-  <p>Aku nggak tahu apakah aku selalu bisa melakukan semuanya dengan benar, tapi aku ingin kamu tahu kalau perasaanku ke kamu itu tulus.</p>
+  <p>Aku suka hal-hal kecil tentang kita, bahkan hal-hal sederhana yang mungkin terlihat biasa bagi orang lain. Aku ingin kita terus punya cerita baru untuk dikenang, tawa yang bisa kita ingat saat sedang sedih, dan momen-momen kecil yang suatu hari nanti bisa membuat kita tersenyum lagi. Aku nggak butuh hubungan yang terlihat sempurna di mata orang lain. Aku cuma ingin hubungan yang membuat kita merasa dihargai, didengarkan, dipercaya, dan disayangi dengan tulus.</p>
 
-  <p>Aku minta maaf atas hal-hal yang pernah menyakitimu, dan terima kasih karena masih menjadi bagian dari hidupku. Aku sayang kamu, dan aku berharap kita bisa melewati semuanya dengan lebih baik, bersama-sama.</p>
+  <p>Kalau nanti kamu merasa capek, cerita sama aku, yaa. Kalau kamu sedih, kamu nggak harus selalu menyembunyikannya. Kalau kita sedang berbeda pendapat, mari kita cari jalan tengahnya. Aku ingin kita bisa saling mengerti tanpa harus kehilangan diri sendiri. Kita tetap punya kehidupan, mimpi, dan keinginan masing-masing, tetapi aku berharap kita bisa saling mendukung sambil berjalan bersama.</p>
 
-  <p class="sign">Dengan sayang,<br>seseorang yang ingin terus belajar bersamamu ❤️</p>
+  <p>Sayang, aku nggak tahu bagaimana perjalanan kita ke depannya. Aku juga nggak bisa menebak semua hal yang akan terjadi. Tapi untuk saat ini, aku bahagia bisa mengenal kamu, menyayangi kamu, dan menciptakan kenangan bersama kamu. Aku ingin menjaga apa yang kita punya dengan komunikasi, kejujuran, kesabaran, dan usaha dari kita berdua. Karena buat aku, hubungan yang baik bukan tentang nggak pernah punya masalah, tetapi tentang bagaimana dua orang yang saling menyayangi belajar menghadapinya bersama.</p>
+
+  <p>Jadi, kalau suatu hari kita sedang nggak baik-baik aja, ingatkan aku untuk kembali mengingat hal-hal baik tentang kita, yaa. Aku juga akan berusaha mengingatkan kamu. Jangan biarkan satu hari yang buruk membuat kita melupakan begitu banyak hari indah yang pernah kita punya. Kita boleh kecewa, boleh sedih, boleh berbeda pendapat, tetapi semoga kita tetap mau saling mendengarkan dan memperbaiki keadaan selama kita berdua masih menginginkannya.</p>
+
+  <p>Terima kasih karena sudah hadir dalam hidupku dan memberiku pengalaman yang begitu berarti. Aku senang bisa mengenal kamu, bukan hanya sebagai seseorang yang aku sayangi, tetapi juga sebagai seseorang yang membuat aku belajar banyak hal tentang perasaan dan hubungan. Aku harap kamu juga bisa merasa nyaman menjadi diri sendiri saat bersama aku, tanpa harus selalu terlihat kuat atau sempurna.</p>
+
+  <p>Intinya, aku sayang banget sama kamu, okayy sayanggg? ❤️ Aku ingin kita terus belajar, bertumbuh, dan saling memahami. Aku ingin kita punya lebih banyak kenangan indah, lebih banyak cerita untuk dibagikan, dan lebih banyak alasan untuk tersenyum bersama. Aku nggak meminta kita untuk selalu sempurna. Aku cuma berharap kita tetap jujur, saling menghargai, dan sama-sama menjaga hubungan ini dengan hati yang tulus.</p>
+
+  <p>And I promise, aku akan berusaha memberikan yang terbaik untuk hubungan kita. Aku ingin kamu tahu bahwa kamu berarti buat aku, dan aku nggak ingin meninggalkan hubungan ini hanya karena kita sedang melewati masa yang sulit. Aku ingin kita belajar menyelesaikan masalah bersama, bukan saling menyakiti karena keadaan. Semoga kita selalu punya keberanian untuk berbicara, kerendahan hati untuk meminta maaf, dan ketulusan untuk saling memaafkan.</p>
+
+  <p>Once again, I love you so much, sayangkuuu. Kalau nanti kita lupa bagaimana rasanya saat pertama kali saling mengenal, mari kita ingat kembali awal cerita kita. Semoga kita nggak cuma menjadi dua orang yang pernah saling menyayangi, tetapi juga dua orang yang belajar menjaga, menghargai, dan memahami satu sama lain. Aku sayang kamu, hari ini, dan selama kita sama-sama memilih untuk terus merawat perasaan ini. ❤️</p>
+
+  <p class="sign">With all my love,<br>seseorang yang bahagia karena bisa mengenal kamu. ❤️🌹</p>
  </article>
 
  <footer>MADE WITH LOVE, JUST FOR YOU ♡</footer>
@@ -128,10 +175,11 @@ function toggleLetter(){
 }
 
 function hearts(){
- for(let i=0;i<18;i++){
+ const symbols=["❤️","🌹","💕","♡","🤍","🖤"];
+ for(let i=0;i<24;i++){
   const el=document.createElement("span");
   el.className="floating";
-  el.textContent=["❤️","🌹","💕","♡"][Math.floor(Math.random()*4)];
+  el.textContent=symbols[Math.floor(Math.random()*symbols.length)];
   el.style.left=Math.random()*100+"vw";
   el.style.fontSize=(15+Math.random()*15)+"px";
   el.style.animationDuration=(4+Math.random()*4)+"s";
@@ -140,63 +188,48 @@ function hearts(){
  }
 }
 
-// Musik romantis instrumental sederhana tanpa file eksternal
-let ctx=null,playing=false,timer=null,index=0,nextTime=0;
-const notes=[261.63,329.63,392,329.63,293.66,349.23,392,329.63,
-261.63,329.63,392,440,392,329.63,293.66,261.63];
-
-function note(freq,time,duration){
- const osc=ctx.createOscillator();
- const gain=ctx.createGain();
- osc.type="sine";
- osc.frequency.value=freq;
- gain.gain.setValueAtTime(.0001,time);
- gain.gain.linearRampToValueAtTime(.035,time+.08);
- gain.gain.exponentialRampToValueAtTime(.0001,time+duration);
- osc.connect(gain);
- gain.connect(ctx.destination);
- osc.start(time);
- osc.stop(time+duration+.05);
-}
-
-function schedule(){
- if(!playing)return;
- while(nextTime<ctx.currentTime+.5){
-  note(notes[index%notes.length],nextTime,.8);
-  if(index%4===0)note(notes[index%notes.length]/2,nextTime,1.2);
-  nextTime+=.5;
-  index++;
+function addSparkles(){
+ for(let i=0;i<14;i++){
+  const el=document.createElement("span");
+  el.className="sparkle";
+  el.textContent="✦";
+  el.style.left=(Math.random()*96+2)+"vw";
+  el.style.top=(Math.random()*90+5)+"vh";
+  el.style.animationDelay=(Math.random()*3)+"s";
+  el.style.fontSize=(8+Math.random()*10)+"px";
+  document.body.appendChild(el);
  }
 }
+addSparkles();
+
+const loveSong=document.getElementById("loveSong");
 
 async function toggleMusic(){
  const btn=document.getElementById("musicBtn");
  const status=document.getElementById("status");
  try{
-  if(!ctx){
-   const Audio=window.AudioContext||window.webkitAudioContext;
-   if(!Audio){status.textContent="Browser tidak mendukung musik.";return}
-   ctx=new Audio();
-  }
-  if(playing){
-   playing=false;
-   clearInterval(timer);
-   await ctx.suspend();
+  if(loveSong.paused){
+   await loveSong.play();
+   btn.textContent="Ⅱ Jeda musik";
+   status.textContent="Lagu untuk kamu sedang diputar ♡";
+  }else{
+   loveSong.pause();
    btn.textContent="♫ Putar musik";
    status.textContent="Musik dijeda ♡";
-  }else{
-   await ctx.resume();
-   playing=true;
-   nextTime=ctx.currentTime+.1;
-   schedule();
-   timer=setInterval(schedule,150);
-   btn.textContent="Ⅱ Jeda musik";
-   status.textContent="Melodi untuk kamu sedang diputar ♫";
   }
- }catch(e){
-  status.textContent="Musik tidak dapat diputar di browser ini.";
+ }catch(error){
+  status.textContent="MP3 belum ditemukan. Letakkan file 'hanya-untuk-mu.mp3' di folder yang sama dengan HTML, ya.";
  }
 }
+loveSong.addEventListener("ended",()=>{
+ document.getElementById("musicBtn").textContent="♫ Putar musik";
+ status.textContent="Lagu selesai ♡";
+});
 </script>
 </body>
 </html>
+'''
+
+out = Path("/mnt/data/untuk_kamu.html")
+out.write_text(html, encoding="utf-8")
+print(f"HTML created: {out} ({out.stat().st_size} bytes)")
